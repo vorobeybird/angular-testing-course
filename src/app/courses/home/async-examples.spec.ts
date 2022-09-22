@@ -1,151 +1,102 @@
-import {fakeAsync, flush, flushMicrotasks, tick} from '@angular/core/testing';
-import {of} from 'rxjs';
-import {delay} from 'rxjs/operators';
+import { fakeAsync, flush, flushMicrotasks, tick } from "@angular/core/testing";
+import { of } from "rxjs/internal/observable/of";
+import { mergeMap, delay, takeUntil } from 'rxjs/operators';
 
+describe("Async Testing Examples", () => {
+  it("Asynchronous test example with Jasmine done()", (done: DoneFn) => {
+    let test = false;
 
-describe('Async Testing Examples', () => {
+    setTimeout(() => {
+      test = true;
 
-    it('Asynchronous test example with Jasmine done()', (done: DoneFn) => {
+      expect(test).toBeTruthy();
 
-        let test = false;
+      done();
+    }, 1000);
+  });
 
-        setTimeout(() => {
+  it("Asynchronous test example - setTimeout()", fakeAsync(() => {
 
-            console.log('running assertions');
+    let test = false;
 
-            test = true;
+    setTimeout(() => {});
 
-            expect(test).toBeTruthy();
+    setTimeout(() => {
+      console.log("running assertions setTimeout");
 
-            done();
+      test = true;
 
-        }, 1000);
+    }, 1000);
 
+    flush();
+    expect(test).toBeTruthy();
+  }));
+
+  it('Asynchronouse test example - plain Promise', fakeAsync(() => {
+
+    let test = false;
+
+    console.log('Creating promise');
+
+    Promise.resolve().then(() => {
+
+        console.log('Promise evaluated succesfully');
+
+        test = true;
     });
 
+    flushMicrotasks();
+    console.log('Running test assertions');
+    expect(test).toBeTruthy();
 
-    it('Asynchronous test example - setTimeout()', fakeAsync(() => {
+  }));
 
-        let test = false;
+  it('Asynchronous test example - Promises + setTimeout()',fakeAsync(() => {
 
-        setTimeout(() => {
-        });
+    let counter = 0;
 
-        setTimeout(() => {
-
-            console.log('running assertions setTimeout()');
-
-            test = true;
-
-        }, 1000);
-
-        flush();
-
-        expect(test).toBeTruthy();
-
-    }));
-
-
-    it('Asynchronous test example - plain Promise', fakeAsync(() => {
-
-        let test = false;
-
-        console.log('Creating promise');
-
-        Promise.resolve().then(() => {
-
-            console.log('Promise first then() evaluated successfully');
-
-            return Promise.resolve();
-        })
+    Promise.resolve()
         .then(() => {
 
-            console.log('Promise second then() evaluated successfully');
+            counter+=10;
 
-            test = true;
+            setTimeout(() => {
+                counter += 1;
+            }, 1000)
 
-        });
+        })
 
-        flushMicrotasks();
+    
+    expect(counter).toBe(0);
 
-        console.log('Running test assertions');
+    flushMicrotasks();
 
-        expect(test).toBeTruthy();
+    expect(counter).toBe(10);
 
-    }));
+    tick(500);
 
+    expect(counter).toBe(10);
 
-    it('Asynchronous test example - Promises + setTimeout()', fakeAsync(() => {
+    tick(500);
 
-        let counter = 0;
+    expect(counter).toBe(11);
+  }));
 
-        Promise.resolve()
-            .then(() => {
+  it('Asynchronous test example - Observables', fakeAsync(() => {
 
-               counter+=10;
+    let test = false;
 
-               setTimeout(() => {
+    console.log('Creating Observable');
 
-                   counter += 1;
+    const test$ = of(test).pipe(delay(1000));
 
-               }, 1000);
+    test$.subscribe(() => {
+        test = true;
+    });
 
-            });
+    tick(1000);
+    console.log('Running test assertions');
 
-        expect(counter).toBe(0);
-
-        flushMicrotasks();
-
-        expect(counter).toBe(10);
-
-        tick(500);
-
-        expect(counter).toBe(10);
-
-        tick(500);
-
-        expect(counter).toBe(11);
-
-    }));
-
-    it('Asynchronous test example - Observables', fakeAsync(() => {
-
-        let test = false;
-
-        console.log('Creating Observable');
-
-        const test$ = of(test).pipe(delay(1000));
-
-        test$.subscribe(() => {
-
-            test = true;
-
-        });
-
-        tick(1000);
-
-        console.log('Running test assertions');
-
-        expect(test).toBe(true);
-
-
-    }));
-
-
+    expect(test).toBe(true);
+  }));
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

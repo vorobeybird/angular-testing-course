@@ -1,18 +1,16 @@
 export const COURSES: any = {
-
-  12: {
-    id: 12,
+  1: {
+    id: 1,
     titles: {
-      description: 'Angular Testing Course',
-      longDescription: 'In-depth guide to Unit Testing and E2E Testing of Angular Applications'
+      description: 'Serverless Angular with Firebase Course',
+      longDescription: 'Serveless Angular with Firestore, Firebase Storage & Hosting, Firebase Cloud Functions & AngularFire'
     },
-    iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-testing-small.png',
-    category: 'BEGINNER',
-    seqNo: 0,
-    url: 'angular-testing-course',
+    iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/serverless-angular-small.png',
     lessonsCount: 10,
+    category: 'BEGINNER',
+    seqNo: 4,
+    url: 'serverless-angular'
   },
-
   2: {
     id: 2,
     titles: {
@@ -52,19 +50,6 @@ export const COURSES: any = {
     lessonsCount: 10,
     seqNo: 3,
     url: 'ngrx-course'
-  },
-
-  1: {
-    id: 1,
-    titles: {
-      description: 'Serverless Angular with Firebase Course',
-      longDescription: 'Serveless Angular with Firestore, Firebase Storage & Hosting, Firebase Cloud Functions & AngularFire'
-    },
-    iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/serverless-angular-small.png',
-    lessonsCount: 10,
-    category: 'BEGINNER',
-    seqNo: 4,
-    url: 'serverless-angular'
   },
 
   5: {
@@ -158,7 +143,19 @@ export const COURSES: any = {
     category: 'BEGINNER',
     seqNo: 11,
     url: 'angular-material-course'
-  }
+  },
+  12: {
+    id: 12,
+    titles: {
+      description: 'Angular Testing Course',
+      longDescription: 'In-depth guide to Unit Testing and E2E Testing of Angular Applications'
+    },
+    iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-testing-small.png',
+    category: 'BEGINNER',
+    seqNo: 0,
+    url: 'angular-testing-course',
+    lessonsCount: 10,
+  },
 
 };
 
